@@ -72,6 +72,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/delete")
+<<<<<<< HEAD
     public String boardDelete(Integer id, Model model) {
 
         boardService.boardDelete(id);
@@ -99,5 +100,11 @@ public class BoardController {
 
         boardService.write(boardTemp, file);
         return "redirect:/board/list";
+=======
+    public String boardDelete(Integer id) {
+
+        boardService.boardDelete(id);
+        return "redirect:/board/list"; //삭제가 되면 리스트 페이지로 이동
+>>>>>>> aa77b69c48af09ffe493a64157a990ee2a269538
     }
 }
