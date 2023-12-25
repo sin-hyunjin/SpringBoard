@@ -22,11 +22,13 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board) {
+    public String boardWritePro(Board board, Model model) {
 
         boardService.write(board);
+        model.addAttribute("message", "글 작성이 완료 되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
 
-        return "";
+        return "message";
     }
 
     @GetMapping("/board/list")
@@ -44,10 +46,12 @@ public class BoardController {
     }
 
     @GetMapping("/board/delete")
-    public String boardDelete(Integer id) {
+    public String boardDelete(Integer id, Model model) {
 
         boardService.boardDelete(id);
-        return "redirect:/board/list"; //삭제가 되면 리스트 페이지로 이동
+        model.addAttribute("message", "글을 삭제하였습니다");
+        model.addAttribute("searchUrl", "/board/list");
+        return "message"; //삭제가 되면 리스트 페이지로 이동
     }
 //어노테이션 중 하나인 @GetMapping
     @GetMapping("/board/modify/{id}")
