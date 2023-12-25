@@ -12,9 +12,27 @@ import jakarta.persistence.Id;
 @Entity
 @Data
 public class Board {
-    @Id // primarykey를 의미
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //mysql , mariadb  IDENTITY가 알아서 처리해줌
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
     private String content;
+
+    // 생성자, getter, setter 등은 Lombok이 자동으로 생성해주기 때문에 생략합니다.
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
