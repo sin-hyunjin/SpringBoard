@@ -8,8 +8,13 @@
 
 <h1 th:text="${board.title}">제목입니다</h1>
 <p th:text="${board.content}">내용입니다</p>
+<<<<<<< HEAD
 <a th:href="@{${board.filepath}}">다운받기</a>
 <a th:href="@{/board/delete(id=${board.id})}">글 삭제</a>
 <a th:href="@{/board/modify/{id}(id = ${board.id})}">수정</a>
+=======
+<a th:href="@{/board/delete(id=${board.id})}">글 삭제</a>
+
+>>>>>>> aa77b69c48af09ffe493a64157a990ee2a269538
 </body>
 </html>
