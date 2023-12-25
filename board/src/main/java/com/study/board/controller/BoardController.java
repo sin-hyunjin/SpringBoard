@@ -38,7 +38,14 @@ public class BoardController {
     @GetMapping("/board/view") // localhost:8080/board/view?id=1
     public String boardView(Model model, Integer id) {
 
-        model.addAttribute("board", boardService.boardView((id)));
+        model.addAttribute("board", boardService.boardView(id));
         return "boardview";
+    }
+
+    @GetMapping("/board/delete")
+    public String boardDelete(Integer id) {
+
+        boardService.boardDelete(id);
+        return "redirect:/board/list"; //삭제가 되면 리스트 페이지로 이동
     }
 }
