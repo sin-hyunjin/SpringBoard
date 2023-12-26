@@ -15,34 +15,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Controller
 public class BoardController {
 
+
     @Autowired
     private BoardService boardService;
-    @GetMapping("/board/write")
-    public String boardWriteFrom() {
+
+    @GetMapping("/board/write") //localhost:8090/board/write
+    public String boardWriteForm() {
 
         return "boardwrite";
     }
 
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception {
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
 
         boardService.write(board, file);
-        model.addAttribute("message", "글 작성이 완료 되었습니다.");
+
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/list");
 
         return "message";
     }
 
     @GetMapping("/board/list")
-    //http://localhost:8080/board/list?page=2&size=20 페이지와 글갯수
     public String boardList(Model model,
                             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                             String searchKeyword) {
 
-        // 검색할 단어가 들어왔을 경우 로직
         Page<Board> list = null;
 
         if(searchKeyword == null) {
@@ -51,8 +54,7 @@ public class BoardController {
             list = boardService.boardSearchList(searchKeyword, pageable);
         }
 
-
-        int nowPage = list.getPageable().getPageNumber();
+        int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
@@ -70,9 +72,7 @@ public class BoardController {
         model.addAttribute("board", boardService.boardView(id));
         return "boardview";
     }
-
     @GetMapping("/board/delete")
-<<<<<<< HEAD
     public String boardDelete(Integer id, Model model) {
 
         boardService.boardDelete(id);
@@ -80,10 +80,9 @@ public class BoardController {
         model.addAttribute("searchUrl", "/board/list");
         return "message"; //삭제가 되면 리스트 페이지로 이동
     }
-//어노테이션 중 하나인 @GetMapping
     @GetMapping("/board/modify/{id}")
-    //@PathVariable("id") Integer id가 있음. 이는 경로 변수 id를 메서드 파라미터 id에 매핑한다는 것을 나타냄
-    public String boardModify(@PathVariable("id") Integer id, Model model) {
+    public String boardModify(@PathVariable("id") Integer id,
+                              Model model) {
 
         model.addAttribute("board", boardService.boardView(id));
 
@@ -91,20 +90,15 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, MultipartFile file) throws Exception {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, MultipartFile file) throws Exception{
 
-        //기존에 있던 글 검색
         Board boardTemp = boardService.boardView(id);
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
 
         boardService.write(boardTemp, file);
-        return "redirect:/board/list";
-=======
-    public String boardDelete(Integer id) {
 
-        boardService.boardDelete(id);
-        return "redirect:/board/list"; //삭제가 되면 리스트 페이지로 이동
->>>>>>> aa77b69c48af09ffe493a64157a990ee2a269538
+        return "redirect:/board/list";
+
     }
 }
